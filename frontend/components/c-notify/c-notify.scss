@@ -1,0 +1,23 @@
+#notif {
+  text-align: center;
+  position: fixed;
+  bottom: -5px;
+  left: 50%;
+  min-width: 169px;
+  min-height: 32px;
+  padding: 16px;
+  background: #323232;
+  border-radius: 4px;
+  color: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 150ms ease-in-out;
+  transform: translateX(-50%);
+  z-index: 200000;
+
+  &[visible='true'] {
+    opacity: 1;
+    bottom: 12px;
+    pointer-events: all;
+  }
+}

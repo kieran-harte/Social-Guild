@@ -1,0 +1,21 @@
+v-home {
+  h1 {
+    font-size: 28px;
+    font-weight: bolder;
+    padding: 48px 64px;
+  }
+
+  h2 {
+    padding: 12px 64px;
+    font-style: italic;
+    font-style: 16px;
+    opacity: 0.85;
+  }
+
+  #info-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 1;
+  }
+}

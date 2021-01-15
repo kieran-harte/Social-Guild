@@ -1,0 +1,67 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Fira Code', monospace, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  box-sizing: border-box;
+  /* Disables highlighting */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Stops highlight on buttons for mobile */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  overflow-wrap: break-word;
+  margin: 0;
+  padding: 0;
+}
+
+// -------- Custom Scrollbar --------
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  background: #14141a;
+  min-height: 100vh;
+}
+
+a,
+h1,
+h2 {
+  color: #f0f6fc;
+}
+
+a {
+  color: #58a6ff;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: from-font;
+  }
+}
+
+app-root > div > * {
+  display: flex;
+  flex-direction: column;
+  max-width: 1100px;
+  margin: auto;
+}

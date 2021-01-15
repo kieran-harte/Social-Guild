@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2020": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "plugin:lit/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "plugins": ["prettier", "babel", "lit"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "func-names": "off",
+    "no-empty-function": "error",
+    "no-extra-parens": "warn",
+    "no-plusplus": "off",
+    "class-methods-use-this": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
+  }
+}

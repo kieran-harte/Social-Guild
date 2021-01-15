@@ -1,0 +1,26 @@
+v-about {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 28px;
+    font-weight: bolder;
+    padding: 12px 64px;
+  }
+
+  h2 {
+    padding: 64px;
+    padding-top: 86px;
+    padding-bottom: 24px;
+    font-style: italic;
+    font-style: 16px;
+    opacity: 0.85;
+  }
+
+  #home-btn {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 1;
+  }
+}
