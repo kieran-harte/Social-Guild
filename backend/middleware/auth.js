@@ -42,5 +42,31 @@ module.exports = {
     } catch (err) {
       return next(new ErrorResponse('Not authorized to access this route', 401))
     }
+  }),
+  checkPostAccess: asyncHandler(async (req, res, next) => {
+    // Check post exists
+    const post = await pool.queryOne('SELECT * FROM posts WHERE id=$1', [
+      req.params.postId
+    ])
+    if (!post)
+      return next(
+        new ErrorResponse(
+          `The post with id ${req.params.postId} does not exist.`,
+          404
+        )
+      )
+
+    // Check the post author is someone we are following
+    // TODO allow commenting/liking if post author's profile is public
+    const followingAuthor = await pool.queryOne(
+      'SELECT * FROM following WHERE user_id=$1 AND target=$2',
+      [req.user.id, post.user_id]
+    )
+    if (!followingAuthor)
+      return next(
+        new ErrorResponse('You are not authorized to access this post.', 403)
+      )
+
+    return next()
   })
 }

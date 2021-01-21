@@ -28,6 +28,8 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
     req.params.id
   ])
 
+  // TODO return if the user likes it
+
   res.status(200).json({
     success: true,
     data: posts

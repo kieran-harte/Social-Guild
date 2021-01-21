@@ -65,6 +65,8 @@ exports.getPost = asyncHandler(async (req, res, next) => {
       new ErrorResponse('You are not authorized to view this post.', 403)
     )
 
+  // TODO return if the user likes it
+
   res.status(200).json({
     success: true,
     data: post

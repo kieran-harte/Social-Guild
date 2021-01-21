@@ -26,9 +26,10 @@ app.use(morgan(process.env.NODE_ENV === 'dev' ? 'dev' : 'common'))
 
 // Mount API routes
 app.use('/api/v1/auth', require('./routes/auth'))
-app.use('/api/v1/posts', require('./routes/posts'))
 app.use('/api/v1/feed', require('./routes/feed'))
+app.use('/api/v1/posts', require('./routes/posts'))
 app.use('/api/v1/users', require('./routes/users'))
+app.use('/api/v1/likes', require('./routes/likes'))
 app.use('/api/v1/comments', require('./routes/comments'))
 app.use('/api/v1/followrequests', require('./routes/followRequests'))
 

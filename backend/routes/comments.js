@@ -6,11 +6,14 @@ const {
   editComment,
   deleteComment
 } = require('../controllers/comments')
-const { protect } = require('../middleware/auth')
+const { protect, checkPostAccess } = require('../middleware/auth')
 
 const router = express.Router()
 
-router.route('/:postId').get(protect, getComments).post(protect, addComment)
+router
+  .route('/:postId')
+  .get(protect, checkPostAccess, getComments)
+  .post(protect, checkPostAccess, addComment)
 
 router
   .route('/:id')

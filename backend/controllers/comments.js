@@ -15,29 +15,6 @@ exports.addComment = asyncHandler(async (req, res, next) => {
   if (!requiredFields([content]))
     return next(new ErrorResponse('Please fill in all required fields.', 400))
 
-  // Check post exists
-  const post = await pool.queryOne('SELECT * FROM posts WHERE id=$1', [
-    req.params.postId
-  ])
-  if (!post)
-    return next(
-      new ErrorResponse(
-        `The post with id ${req.params.postId} does not exist.`,
-        404
-      )
-    )
-
-  // Check the post author is someone we are following
-  // TODO allow commenting if post author's profile is public
-  const followingAuthor = await pool.queryOne(
-    'SELECT * FROM following WHERE user_id=$1 AND target=$2',
-    [req.user.id, post.user_id]
-  )
-  if (!followingAuthor)
-    return next(
-      new ErrorResponse('You are not authorized to comment on this post.', 403)
-    )
-
   // Post the comment
   const newComment = await pool.queryOne(
     'INSERT INTO comments (content, user_id, post_id, created_at) VALUES ($1, $2, $3, $4) RETURNING *',
@@ -56,29 +33,6 @@ exports.addComment = asyncHandler(async (req, res, next) => {
  * @access	Private
  */
 exports.getComments = asyncHandler(async (req, res, next) => {
-  // Check post exists
-  const post = await pool.queryOne('SELECT * FROM posts WHERE id=$1', [
-    req.params.postId
-  ])
-  if (!post)
-    return next(
-      new ErrorResponse(
-        `The post with id ${req.params.postId} does not exist.`,
-        404
-      )
-    )
-
-  // Check the post author is someone we are following
-  // TODO allow commenting if post author's profile is public
-  const followingAuthor = await pool.queryOne(
-    'SELECT * FROM following WHERE user_id=$1 AND target=$2',
-    [req.user.id, post.user_id]
-  )
-  if (!followingAuthor)
-    return next(
-      new ErrorResponse('You are not authorized to comment on this post.', 403)
-    )
-
   // Get comments
   const comments = await pool.queryMany(
     `
