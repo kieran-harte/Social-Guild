@@ -94,8 +94,8 @@ exports.acceptRequest = asyncHandler(async (req, res, next) => {
 
   // Add to following table
   const result = await pool.queryOne(
-    'INSERT INTO following (user_id, target) VALUES ($1, $2) RETURNING *',
-    [request.requested_by, req.user.id]
+    'INSERT INTO following (user_id, target, created_at) VALUES ($1, $2, $3) RETURNING *',
+    [request.requested_by, req.user.id, Date.now()]
   )
 
   res.status(200).json({

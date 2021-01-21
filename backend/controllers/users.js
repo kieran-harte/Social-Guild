@@ -41,7 +41,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
  */
 exports.getProfile = asyncHandler(async (req, res, next) => {
   const profile = await pool.queryOne(
-    'SELECT first_name, last_name, image FROM users WHERE id=$1',
+    'SELECT id, first_name, last_name, image FROM users WHERE id=$1',
     [req.params.id]
   )
 
@@ -66,7 +66,26 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
   profile.followers = followerCount || 0
   profile.following = followingCount || 0
 
-  // TODO add whether they are following you
+  // TODO common followers
+  // const commonFollowers = await pool.queryMany('SELECT * FROM following WHERE')
+
+  // Check if we follow them, have requested to follow them, or they have requested to follow us
+  const isFollowing = await pool.queryOne(
+    'SELECT * FROM following WHERE user_id=$1 AND target=$2',
+    [req.user.id, req.params.id]
+  )
+  const requestedToFollow = await pool.queryOne(
+    'SELECT * FROM follow_requests WHERE requested_by=$1 AND target=$2',
+    [req.user.id, req.params.id]
+  )
+  const followRequestReceived = await pool.queryOne(
+    'SELECT * FROM follow_requests WHERE requested_by=$1 AND target=$2',
+    [req.params.id, req.user.id]
+  )
+
+  profile.isFollowing = !!isFollowing
+  profile.requestedToFollow = !!requestedToFollow
+  profile.followRequestReceived = !!followRequestReceived
 
   res.status(200).json({
     success: true,
@@ -98,11 +117,17 @@ exports.getFollowers = asyncHandler(async (req, res, next) => {
   }
 
   const followers = await pool.queryMany(
-    'SELECT * FROM following WHERE target=$1',
+    `SELECT 
+			users.id, 
+			users.first_name, 
+			users.last_name, 
+			users.image, 
+			following.created_at as followed_at 
+		FROM following 
+		JOIN users ON following.user_id = users.id 
+		WHERE target = $1`,
     [req.params.id]
   )
-
-  // TODO should show the count too + user details like name,image
 
   res.status(200).json({
     success: true,
@@ -134,11 +159,17 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
   }
 
   const following = await pool.queryMany(
-    'SELECT * FROM following WHERE user_id=$1',
+    `SELECT 
+			users.id,
+			users.first_name, 
+			users.last_name, 
+			users.image, 
+			following.created_at as followed_at 
+			FROM following 
+		JOIN users ON following.target=users.id 
+		WHERE user_id=$1`,
     [req.params.id]
   )
-
-  // TODO should show the count too + user details like name,image
 
   res.status(200).json({
     success: true,

@@ -34,9 +34,21 @@ exports.createPost = asyncHandler(async (req, res, next) => {
  * @access	Private
  */
 exports.getPost = asyncHandler(async (req, res, next) => {
-  const post = await pool.queryOne('SELECT * FROM posts WHERE id=$1', [
-    req.params.id
-  ])
+  const post = await pool.queryOne(
+    `SELECT 
+			posts.id, 
+			posts.user_id, 
+			posts.type, 
+			posts.content, 
+			posts.media, 
+			posts.created_at,
+			users.first_name,
+			users.last_name 
+		FROM posts 
+		JOIN users ON users.id = posts.user_id 
+		WHERE id=$1`,
+    [req.params.id]
+  )
 
   // check the post exists
   if (!post)
