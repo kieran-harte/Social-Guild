@@ -8,10 +8,9 @@ const ErrorResponse = require('../utils/ErrorResponse')
  * @access	Private
  */
 exports.getPosts = asyncHandler(async (req, res, next) => {
-  let posts = await pool.query('SELECT * FROM "Posts" WHERE user_id=$1', [
+  const posts = await pool.queryMany('SELECT * FROM posts WHERE user_id=$1', [
     req.user.id
   ])
-  posts = posts.rows
 
   res.status(200).json({
     success: true,

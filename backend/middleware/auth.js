@@ -28,15 +28,15 @@ module.exports = {
       // Verify token
       const payload = jwt.verify(token, process.env.JWT_SECRET)
 
-      const user = await pool.query('SELECT * FROM "Users" WHERE id = $1', [
+      const user = await pool.queryOne('SELECT * FROM users WHERE id = $1', [
         payload.id
       ])
 
       // Check user still exists
-      if (!user.rows.length) throw new Error()
+      if (!user) throw new Error()
 
       // Save user details to request object so it can easily be accessed in the controllers
-      req.user = user.rows[0]
+      req.user = user
 
       return next()
     } catch (err) {

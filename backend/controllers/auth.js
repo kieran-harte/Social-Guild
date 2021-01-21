@@ -39,23 +39,22 @@ exports.register = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('Please fill in all required fields.', 400))
 
   // Check email isn't already registered
-  const user = await pool.query('SELECT * FROM "Users" WHERE email = $1', [
+  const user = await pool.queryOne('SELECT * FROM users WHERE email = $1', [
     email
   ])
 
-  if (user.rows.length)
-    return next(new ErrorResponse('Email already in use.', 401))
+  if (user) return next(new ErrorResponse('Email already in use.', 401))
 
   // Register user
   const salt = await bcrypt.genSalt(12)
   const encryptedPassword = await bcrypt.hash(password, salt)
 
-  const newUser = await pool.query(
-    'INSERT INTO "Users" (first_name, last_name, email, password, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+  const newUser = await pool.queryOne(
+    'INSERT INTO users (first_name, last_name, email, password, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING *',
     [first_name, last_name || '', email, encryptedPassword, Date.now()]
   )
 
-  return sendTokenResponse(newUser.rows[0], 201, res)
+  return sendTokenResponse(newUser, 201, res)
 })
 
 /**
@@ -70,18 +69,17 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('Please provide an email and password.', 400))
 
   // Check user exists
-  const user = await pool.query('SELECT * FROM "Users" WHERE email = $1', [
+  const user = await pool.queryOne('SELECT * FROM users WHERE email = $1', [
     email
   ])
-  if (!user.rows.length)
-    return next(new ErrorResponse('Invalid credentials', 401))
+  if (!user) return next(new ErrorResponse('Invalid credentials', 401))
 
   // Check password is correct
-  const passwordValid = await bcrypt.compare(password, user.rows[0].password)
+  const passwordValid = await bcrypt.compare(password, user.password)
   if (!passwordValid) return next(new ErrorResponse('Invalid credentials', 401))
 
   // Send token
-  return sendTokenResponse(user.rows[0], 200, res)
+  return sendTokenResponse(user, 200, res)
 })
 
 /**
@@ -107,13 +105,13 @@ exports.logout = asyncHandler(async (req, res, next) => {
  * @access	Private
  */
 exports.myDetails = asyncHandler(async (req, res, next) => {
-  const user = await pool.query('SELECT * FROM "Users" WHERE id=$1', [
+  const user = await pool.queryOne('SELECT * FROM users WHERE id=$1', [
     req.user.id
   ])
 
   res.status(200).json({
     success: true,
-    data: user.rows[0]
+    data: user
   })
 })
 
@@ -144,12 +142,12 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   const encryptedPassword = await bcrypt.hash(newPassword, salt)
 
   // Set new password
-  const user = await pool.query(
-    'UPDATE "Users" SET password = $1 WHERE id = $2 RETURNING *',
+  const user = await pool.queryOne(
+    'UPDATE users SET password = $1 WHERE id = $2 RETURNING *',
     [encryptedPassword, req.user.id]
   )
 
-  sendTokenResponse(user.rows[0], 200, res)
+  sendTokenResponse(user, 200, res)
 })
 
 /**
@@ -164,13 +162,13 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
   if (!requiredFields([first_name, last_name, email]))
     return next(new ErrorResponse('Please fill in all required fields.', 400))
 
-  const user = await pool.query(
-    'UPDATE "Users" SET first_name=$1, last_name=$2, email=$3 WHERE id=$4 RETURNING *',
+  const user = await pool.queryOne(
+    'UPDATE users SET first_name=$1, last_name=$2, email=$3 WHERE id=$4 RETURNING *',
     [first_name, last_name, email, req.user.id]
   )
 
   res.status(200).json({
     success: true,
-    data: user.rows[0]
+    data: user
   })
 })
