@@ -8,5 +8,23 @@ const ErrorResponse = require('../utils/ErrorResponse')
  * @access	Public
  */
 exports.getFeed = asyncHandler(async (req, res, next) => {
-  // TODO incomplete
+  const posts = await pool.queryMany(
+    `
+		SELECT 
+			users.first_name,
+			users.last_name,
+			users.image,
+			posts.*
+		FROM following
+		JOIN posts ON following.target=posts.user_id
+		JOIN users ON following.target=users.id
+		WHERE following.user_id=$1
+	`,
+    [req.user.id]
+  )
+
+  res.status(200).json({
+    success: true,
+    data: posts
+  })
 })
