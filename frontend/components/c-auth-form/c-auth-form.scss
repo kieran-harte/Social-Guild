@@ -1,0 +1,67 @@
+c-auth-form {
+  border-radius: var(--border-radius-large);
+  background: var(--background-contrast);
+  display: flex;
+  flex-direction: row;
+  max-width: 1000px;
+  padding: 16px;
+  box-shadow: var(--card-box-shadow);
+  position: relative;
+
+  #title {
+    position: absolute;
+    top: 12px;
+    color: var(--text-dark);
+    padding: 16px;
+  }
+
+  form {
+    flex: 1;
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 450px;
+
+    label {
+      font-size: 14px;
+    }
+
+    input {
+      max-width: 400px;
+      border-radius: var(--border-radius);
+      border: var(--input-border);
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      margin-top: 2px;
+
+      &[invalid] {
+        border: var(--input-border-invalid);
+      }
+
+      &[type='submit'] {
+        height: 40px;
+      }
+    }
+  }
+
+  #divider {
+    width: 2px;
+    border-radius: 100px;
+    // height: 100%;
+    margin: 56px 0;
+    background: var(--background-secondary);
+  }
+
+  span.image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      margin: 16px;
+      max-width: 400px;
+    }
+  }
+}

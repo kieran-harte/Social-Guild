@@ -1,12 +1,24 @@
 {
   "/": {
+    "title": "",
     "import": "../views/v-home/v-home.js",
     "component": "v-home",
     "protected": false
   },
   "/about": {
+    "title": "About",
     "import": "../views/v-about/v-about.js",
     "component": "v-about",
     "protected": false
+  },
+  "/signup": {
+    "title": "Sign Up",
+    "import": "../views/v-signup/v-signup.js",
+    "component": "v-signup"
+  },
+  "/login": {
+    "title": "Log In",
+    "import": "../views/v-login/v-login.js",
+    "component": "v-login"
   }
 }

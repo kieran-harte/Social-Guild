@@ -94,6 +94,11 @@ export default class Router {
     }
 
     this.updatePage(this.routes[url].component)
+
+    // Set page title
+    document.title = this.routes[url].title
+      ? `${this.routes[url].title} - Social Guild`
+      : 'Social Guild'
   }
 
   updatePage(data) {
@@ -155,7 +160,7 @@ window.back = (toUrl) => {
   }
 
   // No stack or toUrl, so navigate to home page
-  window.navigate('/home')
+  window.navigate('/')
 }
 
 // Shows loading overlay

@@ -1,0 +1,27 @@
+v-signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+
+  header {
+    padding: 0 32px;
+    width: 100%;
+    max-width: var(--body-max-width);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 76px;
+
+    h1 {
+      cursor: pointer;
+    }
+  }
+
+  #container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+  }
+}
