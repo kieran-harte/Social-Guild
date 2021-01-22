@@ -1,0 +1,22 @@
+c-footer {
+  color: var(--text-primary);
+  height: 120px;
+  background: var(--background-tertiary);
+  display: flex;
+  justify-content: center;
+
+  .inner {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    max-width: var(--body-max-width);
+    padding: 0 32px;
+    justify-content: space-between;
+  }
+
+  #buttons {
+    a {
+      margin: 0 12px;
+    }
+  }
+}

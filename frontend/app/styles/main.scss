@@ -48,10 +48,11 @@ a,
 h1,
 h2 {
   color: #f0f6fc;
+  color: var(--text-primary);
 }
 
 a {
-  color: #58a6ff;
+  color: var(--text-action);
   &:hover {
     text-decoration: underline;
     text-decoration-style: dotted;
@@ -59,9 +60,60 @@ a {
   }
 }
 
-app-root > div > * {
-  display: flex;
-  flex-direction: column;
-  max-width: 1100px;
-  margin: auto;
+h1 {
+  font-size: 24px;
+}
+
+.btn-primary {
+  margin: 0 12px;
+  padding: 4px 16px;
+  color: var(--text-action);
+  border-radius: 4px;
+  transition: var(--transition);
+  border: 1px solid var(--btn-border);
+  text-transform: uppercase;
+  background: var(--btn-primary);
+  color: #14141a;
+  font-weight: 600;
+
+  &:hover {
+    color: var(--btn-primary-color-hover);
+    background: var(--btn-primary-hover);
+  }
+}
+
+:root {
+  // Text colours
+  --text-primary: #ffffff;
+  --text-sub: #93b6d6;
+  --text-action: #6cadf8;
+
+  --background-primary: #14141a;
+  --background-secondary: #21212c;
+  --background-secondary: #223151;
+  --background-tertiary: #282c39;
+
+  --btn-border: #6cadf8;
+  --btn-primary: #509ef7;
+  --btn-primary-hover: #6cadf8;
+  --btn-primary-color: #14141a;
+  --btn-primary-color-hover: #14141a;
+
+  --transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  --card-background: white;
+  --card-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.582);
+  --card-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  // Standard styling
+  --body-max-width: 1500px;
+  --body-padding: 0 32px;
+  --border-radius: 4px;
+  --border-radius-large: 8px;
+}
+
+:root[light] {
+  --text-primary: #242424;
+  --background-primary: #1d70f5;
 }

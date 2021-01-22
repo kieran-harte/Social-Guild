@@ -5,8 +5,7 @@ const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const colors = require('colors')
-const pool = require('./config/db')
+require('colors')
 const errorHandler = require('./middleware/error')
 
 // Load .env
@@ -62,7 +61,7 @@ const server = app.listen(
 )
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
+process.on('unhandledRejection', (err) => {
   console.log(`Error: ${err.message}`.red)
   // Close server and exit process
   server.close(() => process.exit(1))

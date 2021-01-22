@@ -1,21 +1,124 @@
 v-home {
-  h1 {
-    font-size: 28px;
-    font-weight: bolder;
-    padding: 48px 64px;
+  display: flex;
+  flex-direction: column;
+
+  #hero {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    height: 840px;
+    max-width: var(--body-max-width);
+    padding: var(--body-padding);
+    margin: auto;
+
+    #text {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: center;
+
+      button {
+        margin: 0;
+        max-width: 225px;
+        padding: 12px 0;
+        margin-bottom: 64px;
+      }
+
+      h1 {
+        font-size: 44px;
+        margin-bottom: 26px;
+      }
+      h2 {
+        font-size: 24px;
+        margin-bottom: 26px;
+        color: var(--text-sub);
+      }
+    }
+
+    svg {
+      max-width: 600px;
+      padding-bottom: 64px;
+      align-self: flex-end;
+      opacity: 0.85;
+    }
   }
 
-  h2 {
-    padding: 12px 64px;
-    font-style: italic;
-    font-style: 16px;
-    opacity: 0.85;
+  .wave {
+    display: flex;
+  }
+  .blue-wave {
+    path {
+      fill: var(--background-secondary);
+    }
+    width: 100%;
+    height: auto;
+  }
+  span.flip {
+    transform: scale(-1, -1);
+    margin-top: -10px;
   }
 
-  #info-btn {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    z-index: 1;
+  #second-section {
+    background: var(--background-secondary);
+    width: 100%;
+    height: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .info-card {
+      width: 300px;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // justify-content: center;
+      background: var(--card-background);
+      margin: 64px;
+      padding: 24px;
+      text-align: center;
+      border-radius: var(--border-radius-large);
+      box-shadow: var(--card-box-shadow);
+
+      .icon svg {
+        width: 56px;
+        height: 56px;
+        margin: 8px;
+      }
+
+      h3 {
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Ubuntu';
+        margin-bottom: 12px;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  #third-section {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+    button {
+      margin: 0;
+      width: 160px;
+      padding: 12px 0;
+      margin-bottom: 64px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 26px;
+    }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 46px;
+      color: var(--text-sub);
+    }
   }
 }
