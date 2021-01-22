@@ -8,17 +8,19 @@ class Notif extends LitEl {
   }
 }
 
-window.notif = (text) => {
+window.notif = (text, type) => {
+  if (!text) return
+
   clearTimeout(window.notifTimeout)
 
-  const app = document.querySelector('app-root')
-  if (!app) return
-  const comp = app.querySelector('c-notify')
-  if (!comp) return
-  const el = comp.querySelector('#notif')
+  const el = document.querySelector('c-notify #notif')
   if (!el) return
+
   el.innerText = text
   el.setAttribute('visible', 'true')
+
+  el.classList = []
+  if (type) el.classList.add(type)
 
   window.notifTimeout = setTimeout(
     () => {

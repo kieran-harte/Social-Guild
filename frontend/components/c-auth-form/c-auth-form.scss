@@ -23,6 +23,10 @@ c-auth-form {
     justify-content: center;
     width: 450px;
 
+    fieldset {
+      display: grid;
+    }
+
     label {
       font-size: 14px;
     }

@@ -1,19 +1,83 @@
+/* eslint-disable camelcase */
+import { query } from 'lit-element'
 import image from '../../images/svg/undraw_social_life'
 import { customElement, html, LitEl, property } from '../_LitEl/LitEl'
 import './c-auth-form.scss'
+
+const axios = require('axios')
 
 @customElement('c-auth-form')
 class Component extends LitEl {
   @property({ type: Boolean }) signup = false
 
+  @property({ type: Boolean }) loading = false
+
+  @query('#first_name') first_name
+
+  @query('#last_name') last_name
+
+  @query('#email ') email
+
+  @query('#password') password
+
+  @query('#confirm_password') confirm_password
+
   login(e) {
     e.preventDefault()
-    alert('login')
+
+    this.loading = true
+
+    axios
+      .post('/api/v1/auth/login', {
+        email: this.email.value,
+        password: this.password.value
+      })
+      .then((res) => {
+        if (res.data.success) {
+          window.navigate('/home')
+        } else {
+          window.notif('Could not sign in.', 'error')
+        }
+      })
+      .catch((err) => {
+        window.notif(err.response.data.error, 'error')
+      })
+      .then(() => {
+        this.loading = false
+      })
   }
 
   signupUser(e) {
     e.preventDefault()
-    console.log('sign up user')
+
+    // Check passwords match
+    if (this.password.value !== this.confirm_password.value) {
+      return this.confirm_password.setAttribute('invalid', true)
+    }
+
+    this.loading = true
+
+    axios
+      .post('/api/v1/auth/register', {
+        first_name: this.first_name.value,
+        last_name: this.last_name.value,
+        email: this.email.value,
+        password: this.password.value
+      })
+      .then((res) => {
+        console.log(res)
+        if (res.data.success) {
+          window.navigate('/home')
+        } else {
+          window.notif('Could not create account', 'error')
+        }
+      })
+      .catch((err) => {
+        window.notif(err.response.data.error, 'error')
+      })
+      .then(() => {
+        this.loading = false
+      })
   }
 
   render() {
@@ -28,11 +92,22 @@ class Component extends LitEl {
   renderLogin() {
     return html`
       <form @submit=${this.login}>
-        <label for="email">Email</label>
-        <input type="email" id="email" autocomplete="email" />
-        <label for="password">Password</label>
-        <input type="password" id="password" autocomplete="current-password" />
-        <input type="submit" class="btn-light" value="Log In" />
+        <fieldset ?disabled=${this.loading ? 'disabled' : false}>
+          <label for="email">Email</label>
+          <input required type="email" id="email" autocomplete="email" />
+          <label for="password">Password</label>
+          <input
+            required
+            type="password"
+            id="password"
+            autocomplete="current-password"
+          />
+          <input
+            type="submit"
+            class="btn-light"
+            value="${this.loading ? 'Loading...' : 'Log In'}"
+          />
+        </fieldset>
       </form>
     `
   }
@@ -40,21 +115,43 @@ class Component extends LitEl {
   renderSignup() {
     return html`
       <form @submit=${this.signupUser}>
-        <label for="first_name">First Name</label>
-        <input type="text" id="first_name" autocomplete="given-name" />
-        <label for="last_name">Last Name</label>
-        <input type="text" id="last_name" autocomplete="family-name" />
-        <label for="email">Email</label>
-        <input type="email" autocomplete="email" id="email" />
-        <label for="password">Password</label>
-        <input type="password" id="password" autocomplete="new-password" />
-        <label for="confirm_password">Confirm Password</label>
-        <input
-          type="password"
-          id="confirm_password"
-          autocomplete="new-password"
-        />
-        <input type="submit" class="btn-light" value="Sign Up" />
+        <fieldset ?disabled=${this.loading ? 'disabled' : false}>
+          <label for="first_name">First Name</label>
+          <input
+            required
+            type="text"
+            id="first_name"
+            autocomplete="given-name"
+          />
+          <label for="last_name">Last Name</label>
+          <input
+            required
+            type="text"
+            id="last_name"
+            autocomplete="family-name"
+          />
+          <label for="email">Email</label>
+          <input required type="email" autocomplete="email" id="email" />
+          <label for="password">Password</label>
+          <input
+            required
+            type="password"
+            id="password"
+            autocomplete="new-password"
+          />
+          <label for="confirm_password">Confirm Password</label>
+          <input
+            required
+            type="password"
+            id="confirm_password"
+            autocomplete="new-password"
+          />
+          <input
+            type="submit"
+            class="btn-light"
+            value="${this.loading ? 'Loading...' : 'Sign Up'}"
+          />
+        </fieldset>
       </form>
     `
   }
