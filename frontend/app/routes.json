@@ -1,8 +1,8 @@
 {
   "/": {
+    "import": "../views/v-landing/v-landing.js",
+    "component": "v-landing",
     "title": "",
-    "import": "../views/v-home/v-home.js",
-    "component": "v-home",
     "protected": false
   },
   "/about": {
@@ -14,11 +14,19 @@
   "/signup": {
     "title": "Sign Up",
     "import": "../views/v-signup/v-signup.js",
-    "component": "v-signup"
+    "component": "v-signup",
+    "protected": false
   },
   "/login": {
     "title": "Log In",
     "import": "../views/v-login/v-login.js",
-    "component": "v-login"
+    "component": "v-login",
+    "protected": false
+  },
+  "/home": {
+    "title": "Home",
+    "import": "../views/v-home/v-home.js",
+    "component": "v-home",
+    "protected": true
   }
 }

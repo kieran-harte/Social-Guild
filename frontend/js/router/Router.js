@@ -25,10 +25,10 @@ export default class Router {
 
     // Check Authorized
     if (this.routes[pathname].protected) {
-      if (!localStorage.auth_token) {
-        window.notif('Please sign in')
+      if (!localStorage.logged_in) {
+        window.notif('Please log in')
         window.redirect = pageUrl
-        window.navigate('/signin')
+        window.navigate('/login')
         return
       }
     }

@@ -76,6 +76,7 @@ h1 {
   color: var(--btn-primary-color);
   cursor: pointer;
   outline: none;
+  font-family: auto;
 
   &:hover {
     color: var(--btn-primary-color-hover);
@@ -120,6 +121,13 @@ h1 {
 
   --input-border: 1px solid var(--text-action);
   --input-border-invalid: 1px solid red;
+
+  --tab-background-hover: #1d2b49;
+  --tab-background-active: #182541;
+
+  --divider-color: var(--background-primary);
+
+  --profile-placeholder-fill: #6cadf8;
 
   // Standard styling
   --body-max-width: 1500px;

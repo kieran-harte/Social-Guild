@@ -1,9 +1,12 @@
-import { customElement, html, LitEl } from '../../components/_LitEl/LitEl'
-import money from '../../icons/money'
-import security from '../../icons/security'
-import wellbeing from '../../icons/wellbeing'
-import blueWave from '../../images/svg/blueWave'
-import hero from '../../images/svg/undraw_social_serenity'
+import {
+  customElement,
+  html,
+  LitEl,
+  property
+} from '../../components/_LitEl/LitEl'
+import profilePicPlaceholder from '../../icons/person'
+import wellbeingSvg from '../../images/svg/undraw_walking_outside'
+import store from '../../js/store/store'
 import './v-home.scss'
 
 require('../../components/landing/c-header')
@@ -11,59 +14,51 @@ require('../../components/landing/c-footer')
 
 @customElement('v-home')
 class View extends LitEl {
+  @property({ type: String }) tab = 'home'
+
   render() {
     return html`
-      <c-header></c-header>
-      <section id="hero">
-        <div id="text">
-          <h1>A new era of <br />social <br />networking.</h1>
-          <h2>Putting privacy, security, and wellbeing first.</h2>
-          <button class="btn-primary" onclick="navigate('/signup')">
-            Sign up for free
-          </button>
-        </div>
-        ${hero}
-      </section>
+      <header>
+        <div class="container">
+          <h1 id="title" onclick="navigate('/')">Social Guild</h1>
+          <div id="content">
+            <div id="my-info">
+              ${store.user.image
+                ? html`
+                    <img id="my-profile-picture" src="" alt="Profile Picture" />
+                  `
+                : profilePicPlaceholder}
 
-      <span class="wave">${blueWave}</span>
-      <section id="second-section">
-        <div class="info-card">
-          <div class="icon">${security}</div>
-          <h3>Privacy</h3>
-          <p>
-            At Social Guild, your privacy is one of our top priorities. With
-            this in mind, we enable the maximum privacy settings by default on
-            your account.
-          </p>
-        </div>
-        <div class="info-card">
-          <div class="icon">${money}</div>
-          <h3>Non-profit</h3>
-          <p>
-            We're not trying to make money from you. We won't place ads. We
-            won't sell your data.
-          </p>
-        </div>
-        <div class="info-card">
-          <div class="icon">${wellbeing}</div>
-          <h3>Wellbeing</h3>
-          <p>
-            Unlike other social networks which profit from your addiction, we
-            promote healthier interaction and remind you to take breaks.
-          </p>
-        </div>
-      </section>
-      <span class="wave flip">${blueWave}</span>
+              <h2 id="my-name">Kieran Harte</h2>
+              <button id="logout" class="btn-primary">Log Out</button>
+              <div id="follow-info">
+                <h3 id="my-followers-count">42 Followers</h3>
+                <h3 id="my-following-count">56 Following</h3>
+              </div>
+            </div>
 
-      <section id="third-section">
-        <h1>Become part of a growing community.</h1>
-        <h2>Sign up today, for free</h2>
-        <button class="btn-primary" onclick="navigate('/signup')">
-          Sign Up
-        </button>
-      </section>
+            <nav>
+              <ul>
+                <li ?active=${this.tab === 'home'}>Home</li>
+                <li>Explore</li>
+                <li>Your Profile</li>
+                <li>Search</li>
+                <li>Settings</li>
+              </ul>
+            </nav>
 
-      <c-footer></c-footer>
+            <div id="duration-info">
+              <h2>You've been online for</h2>
+              <p>23 minutes</p>
+              ${wellbeingSvg}
+            </div>
+          </div>
+        </div>
+      </header>
+      <main></main>
+      <aside></aside>
+
+      <!-- <c-footer></c-footer> -->
     `
   }
 }

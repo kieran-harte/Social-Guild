@@ -1,124 +1,173 @@
 v-home {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  min-height: 100vh;
+  align-items: start;
+  justify-content: space-between;
 
-  #hero {
+  & > * {
+    min-height: 100vh;
     display: flex;
     flex-grow: 1;
-    justify-content: space-between;
-    height: 840px;
-    max-width: var(--body-max-width);
-    padding: var(--body-padding);
-    margin: auto;
-
-    #text {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: center;
-
-      button {
-        margin: 0;
-        max-width: 225px;
-        padding: 12px 0;
-        margin-bottom: 64px;
-      }
-
-      h1 {
-        font-size: 44px;
-        margin-bottom: 26px;
-      }
-      h2 {
-        font-size: 24px;
-        margin-bottom: 26px;
-        color: var(--text-sub);
-      }
-    }
-
-    svg {
-      max-width: 600px;
-      padding-bottom: 64px;
-      align-self: flex-end;
-      opacity: 0.85;
-    }
   }
 
-  .wave {
-    display: flex;
-  }
-  .blue-wave {
-    path {
-      fill: var(--background-secondary);
-    }
-    width: 100%;
-    height: auto;
-  }
-  span.flip {
-    transform: scale(-1, -1);
-    margin-top: -10px;
-  }
-
-  #second-section {
-    background: var(--background-secondary);
-    width: 100%;
-    height: 390px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .info-card {
-      width: 300px;
-      height: 300px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      // justify-content: center;
-      background: var(--card-background);
-      margin: 64px;
-      padding: 24px;
-      text-align: center;
-      border-radius: var(--border-radius-large);
-      box-shadow: var(--card-box-shadow);
-
-      .icon svg {
-        width: 56px;
-        height: 56px;
-        margin: 8px;
-      }
-
-      h3 {
-        font-size: 24px;
-        font-weight: bold;
-        font-family: 'Ubuntu';
-        margin-bottom: 12px;
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  #third-section {
-    height: 600px;
-    display: flex;
+  header {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
+    background: var(--background-primary);
 
-    button {
-      margin: 0;
-      width: 160px;
-      padding: 12px 0;
-      margin-bottom: 64px;
-    }
+    div.container {
+      min-height: 100vh;
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+      position: fixed;
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 26px;
+      #title {
+        margin: 16px;
+        cursor: pointer;
+      }
+
+      #content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        margin-right: 12px;
+        border-top-right-radius: var(--border-radius-large);
+        background: var(--background-secondary);
+        width: 360px;
+
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        img {
+          color: var(--text-primary);
+        }
+
+        #my-info {
+          display: grid;
+          margin: 8px;
+          grid-template-rows: 1fr 1fr 1.4fr;
+          grid-template-columns: repeat(6, 1fr);
+          align-items: center;
+          grid-template-areas:
+            'pp pp nm nm nm nm'
+            'pp pp bt bt bt bt'
+            'fi fi fi fi fi fi';
+
+          #my-profile-picture,
+          .profile-picture-placeholder {
+            grid-area: pp;
+            margin: 12px;
+            width: 80px;
+            height: 80px;
+            align-self: center;
+            justify-self: center;
+
+            fill: var(--profile-placeholder-fill);
+            svg {
+            }
+          }
+
+          #my-name {
+            grid-area: nm;
+            margin-left: 12px;
+            margin-bottom: 4px;
+            font-size: 20px;
+            align-self: end;
+          }
+
+          #logout {
+            grid-area: bt;
+            margin-top: 4px;
+            align-self: start;
+            justify-self: start;
+            // margin-left: 0;
+          }
+
+          #follow-info {
+            grid-area: fi;
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 4px 0;
+            margin: 0 8px;
+            margin-top: 16px;
+            border-top: 2px solid var(--divider-color);
+            border-bottom: 2px solid var(--divider-color);
+
+            h3 {
+              padding: 12px;
+              cursor: pointer;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+
+        nav {
+          margin-top: 28px;
+
+          ul {
+            max-width: 360px;
+            margin: 0 auto;
+
+            li {
+              margin: 16px;
+              padding: 12px;
+              text-align: center;
+              border-radius: var(--border-radius-large);
+              cursor: pointer;
+
+              &:hover {
+                background: var(--tab-background-hover);
+              }
+
+              &[active] {
+                background: var(--tab-background-active);
+              }
+            }
+          }
+        }
+
+        #duration-info {
+          display: flex;
+          flex-grow: 1;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 12px 16px;
+
+          h2 {
+            font-style: italic;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+          }
+
+          p {
+            font-size: 28px;
+          }
+
+          svg {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 12px;
+            margin: 12px 16px;
+            padding: 12px 32px;
+          }
+        }
+      }
     }
-    h2 {
-      font-size: 24px;
-      margin-bottom: 46px;
-      color: var(--text-sub);
-    }
+  }
+
+  main {
+    background: green;
+    height: 2000px;
+  }
+  aside {
+    background: blue;
   }
 }

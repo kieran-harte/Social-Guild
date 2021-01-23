@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { query } from 'lit-element'
 import image from '../../images/svg/undraw_social_life'
+import store from '../../js/store/store'
 import { customElement, html, LitEl, property } from '../_LitEl/LitEl'
 import './c-auth-form.scss'
 
@@ -34,6 +35,9 @@ class Component extends LitEl {
       })
       .then((res) => {
         if (res.data.success) {
+          console.log(res.data)
+          store.user = res.data.user
+          localStorage.logged_in = true
           window.navigate('/home')
         } else {
           window.notif('Could not sign in.', 'error')
@@ -65,8 +69,10 @@ class Component extends LitEl {
         password: this.password.value
       })
       .then((res) => {
-        console.log(res)
+        console.log(res.data)
         if (res.data.success) {
+          store.user = res.data.user
+          localStorage.logged_in = true
           window.navigate('/home')
         } else {
           window.notif('Could not create account', 'error')

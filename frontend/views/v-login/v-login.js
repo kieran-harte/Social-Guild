@@ -5,6 +5,14 @@ require('../../components/c-auth-form/c-auth-form')
 
 @customElement('v-login')
 class View extends LitEl {
+  constructor() {
+    super()
+
+    if (localStorage.logged_in) {
+      navigate('/home')
+    }
+  }
+
   render() {
     return html`
       <header>
