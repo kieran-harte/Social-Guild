@@ -19,6 +19,7 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 		JOIN posts ON following.target=posts.user_id
 		JOIN users ON following.target=users.id
 		WHERE following.user_id=$1
+		ORDER BY created_at DESC
 	`,
     [req.user.id]
   )

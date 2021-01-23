@@ -1,6 +1,13 @@
 import { MobxLitElement } from '@adobe/lit-mobx'
 import { LitNotify, LitSync } from '@morbidick/lit-element-notify'
-import { css, customElement, html, LitElement, property } from 'lit-element'
+import {
+  css,
+  customElement,
+  html,
+  LitElement,
+  property,
+  query
+} from 'lit-element'
 import { render } from 'lit-html'
 // CSS Reset
 import cssMain from '../../app/styles/main-css'
@@ -18,6 +25,7 @@ class LitEl extends LitSync(LitNotify(MobxLitElement)) {
 export {
   css,
   html,
+  query,
   LitEl,
   render,
   LitSync,

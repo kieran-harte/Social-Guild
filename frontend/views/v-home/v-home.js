@@ -14,6 +14,7 @@ require('../../components/landing/c-footer')
 require('../../components/c-find-users/c-find-users')
 require('../../components/c-notifications/c-notifications')
 require('../../components/c-requests/c-requests')
+require('../../components/c-feed/c-feed')
 
 @customElement('v-home')
 class View extends LitEl {
@@ -114,7 +115,7 @@ class View extends LitEl {
 
     switch (this.tab) {
       case 'home':
-        code = html`Feed: <c-feed></c-feed>`
+        code = html`<c-feed></c-feed>`
         break
 
       case 'explore':

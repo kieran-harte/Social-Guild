@@ -9,6 +9,12 @@ class Store {
 
   user = {}
 
+  feed = []
+
+  addingPost = false
+
+  feedLoading = false
+
   async init() {}
 
   fetchUserDetails() {
@@ -35,6 +41,26 @@ class Store {
 
   get followersCount() {
     return this.user.followers.length
+  }
+
+  fetchFeed() {
+    this.feedLoading = true
+
+    axios
+      .get('/api/v1/feed')
+      .then((res) => {
+        this.setFeed(res.data.data)
+      })
+      .catch((err) => {
+        notif(err.response.data.error, 'error')
+      })
+      .then(() => {
+        this.feedLoading = false
+      })
+  }
+
+  setFeed(feed) {
+    this.feed = feed
   }
 }
 
