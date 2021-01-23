@@ -4,15 +4,19 @@ const {
   getPosts,
   getProfile,
   getFollowers,
-  getFollowing
+  getFollowing,
+  getUsers,
+  unfollowUser
 } = require('../controllers/users')
 
 const router = express.Router()
 
 router
+  .get('/', protect, getUsers)
   .get('/:id/posts', protect, getPosts)
   .get('/:id/profile', protect, getProfile)
   .get('/:id/followers', protect, getFollowers)
   .get('/:id/following', protect, getFollowing)
+  .delete('/:id/unfollow', protect, unfollowUser)
 
 module.exports = router

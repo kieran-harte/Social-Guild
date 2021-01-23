@@ -3,6 +3,58 @@ const asyncHandler = require('../middleware/async')
 const ErrorResponse = require('../utils/ErrorResponse')
 
 /**
+ * @desc		Unfollow a user
+ * @route		DELETE /api/v1/users/:id/unfollow
+ * @access	Private
+ */
+exports.unfollowUser = asyncHandler(async (req, res, next) => {
+  // check you are following them
+  const following = await pool.queryOne(
+    'SELECT * FROM following WHERE user_id=$1 AND target=$2',
+    [req.user.id, req.params.id]
+  )
+  if (!following)
+    return next(new ErrorResponse('You are not following this user.', 400))
+
+  // Delete from following table
+  await pool.queryOne('DELETE FROM following WHERE id=$1', [following.id])
+
+  res.status(200).json({
+    success: true,
+    data: {}
+  })
+})
+
+/**
+ * @desc		Get all users
+ * @route		GET /api/v1/users
+ * @access	Private
+ */
+exports.getUsers = asyncHandler(async (req, res, next) => {
+  const users = await pool.queryMany(
+    `SELECT 
+			users.id, 
+			users.first_name, 
+			users.last_name, 
+			users.image, 
+			users.created_at,
+			follow_requests.id as follow_request_id,
+			following.id as following_id
+		FROM users 
+		LEFT JOIN follow_requests ON users.id = follow_requests.target AND follow_requests.requested_by = $1
+		LEFT JOIN following ON users.id = following.target AND following.user_id = $1
+		WHERE users.id != $1 
+		LIMIT 10`,
+    [req.user.id]
+  )
+
+  res.status(200).json({
+    success: true,
+    users
+  })
+})
+
+/**
  * @desc		Get user's posts
  * @route		GET /api/v1/users/:id/posts
  * @access	Private

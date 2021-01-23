@@ -5,7 +5,8 @@ const {
   getPending,
   makeRequest,
   acceptRequest,
-  declineRequest
+  declineRequest,
+  deleteSentRequest
 } = require('../controllers/followRequests')
 
 const router = express.Router()
@@ -14,4 +15,5 @@ router.route('/').get(protect, getRequests).post(protect, makeRequest)
 router.get('/pendingsent', protect, getPending)
 router.get('/:id/accept', protect, acceptRequest)
 router.get('/:id/decline', protect, declineRequest)
+router.delete('/:id', protect, deleteSentRequest)
 module.exports = router

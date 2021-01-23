@@ -14,6 +14,9 @@ v-home {
   header {
     flex-direction: column;
     background: var(--background-primary);
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 360px;
 
     div.container {
       min-height: 100vh;
@@ -101,6 +104,8 @@ v-home {
             h3 {
               padding: 12px;
               cursor: pointer;
+              transition: var(--transition);
+
               &:hover {
                 text-decoration: underline;
               }
@@ -121,6 +126,7 @@ v-home {
               text-align: center;
               border-radius: var(--border-radius-large);
               cursor: pointer;
+              transition: var(--transition);
 
               &:hover {
                 background: var(--tab-background-hover);
@@ -164,10 +170,33 @@ v-home {
   }
 
   main {
-    background: green;
-    height: 2000px;
+    height: auto;
+    justify-content: center;
   }
   aside {
-    background: blue;
+    flex-direction: column;
+    background: var(--background-primary);
+    // flex-shrink: 0;
+    // flex-grow: 1;
+    // min-width: 400px;
+
+    // flex-direction: column;
+    // background: var(--background-primary);
+    /* flex-shrink: 0; */
+    /* flex-grow: 0; */
+    max-width: 502px;
+
+    #aside-content {
+      min-height: 100vh;
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+      position: fixed;
+
+      c-footer {
+        background: var(--background-primary);
+        height: 63px;
+      }
+    }
   }
 }

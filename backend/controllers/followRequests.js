@@ -23,13 +23,23 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
   if (!targetUser)
     return next(new ErrorResponse(`The user ${target} does not exist.`, 404))
 
+  // Check a request hasn't already been sent
+  const existingRequest = await pool.queryOne(
+    'SELECT * FROM follow_requests WHERE requested_by=$1 AND target=$2',
+    [req.user.id, target]
+  )
+  if (existingRequest)
+    return next(
+      new ErrorResponse(`You have already requested to follow the user.`, 400)
+    )
+
   // add requets to requests table
   const followReq = await pool.queryOne(
     'INSERT INTO follow_requests (requested_by, target, created_at) VALUES ($1, $2, $3) RETURNING *',
     [req.user.id, target, Date.now()]
   )
 
-  // TODO check if they've alredy sent a request, or received a request from them
+  // TODO check if they've alredy received a request from them (opposite of existingRequest)
   // TODO check that they don't already follow them
   // TODO possibly add notification, or just show any pending requests as non-dismissable notifications
   res.status(200).json({
@@ -45,7 +55,16 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
  */
 exports.getRequests = asyncHandler(async (req, res, next) => {
   const requests = await pool.queryMany(
-    'SELECT * FROM follow_requests WHERE target=$1',
+    `SELECT 
+			follow_requests.created_at,
+			follow_requests.id as request_id, 
+			users.first_name, 
+			users.last_name, 
+			users.image,
+			users.id as id
+		FROM follow_requests 
+		JOIN users ON follow_requests.requested_by=users.id 
+		WHERE target=$1`,
     [req.user.id]
   )
 
@@ -62,7 +81,14 @@ exports.getRequests = asyncHandler(async (req, res, next) => {
  */
 exports.getPending = asyncHandler(async (req, res, next) => {
   const requests = await pool.queryMany(
-    'SELECT * FROM follow_requests WHERE requested_by=$1',
+    `SELECT 
+			follow_requests.*, 
+			users.first_name, 
+			users.last_name, 
+			users.image 
+		FROM follow_requests 
+		JOIN users ON follow_requests.target=users.id 
+		WHERE requested_by=$1`,
     [req.user.id]
   )
 
@@ -125,6 +151,26 @@ exports.declineRequest = asyncHandler(async (req, res, next) => {
     )
 
   // TODO send the requester a notification saying it has been declined
+
+  res.status(200).json({
+    success: true,
+    data: {}
+  })
+})
+
+/**
+ * @desc		Delete a sent requets
+ * @route		DELETE /api/v1/requests/:id
+ * @access	Private
+ */
+exports.deleteSentRequest = asyncHandler(async (req, res, next) => {
+  // Delete the follow request
+  const request = await pool.queryOne(
+    'DELETE FROM follow_requests WHERE id=$1 AND requested_by=$2 RETURNING *',
+    [req.params.id, req.user.id]
+  )
+
+  if (!request) return next(new ErrorResponse(`Could not delete request`, 404))
 
   res.status(200).json({
     success: true,

@@ -109,9 +109,22 @@ exports.myDetails = asyncHandler(async (req, res, next) => {
     req.user.id
   ])
 
+  // Get follower/following count
+  const followerCount = await pool.queryOne(
+    'SELECT COUNT(target) FROM following WHERE target=$1',
+    [req.user.id]
+  )
+  const followingCount = await pool.queryOne(
+    'SELECT COUNT(user_id) FROM following WHERE user_id=$1',
+    [req.user.id]
+  )
+
+  user.followers = followerCount.count || 0
+  user.following = followingCount.count || 0
+
   res.status(200).json({
     success: true,
-    data: user
+    user
   })
 })
 
@@ -169,6 +182,6 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: user
+    user
   })
 })

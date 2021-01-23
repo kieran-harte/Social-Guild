@@ -28,5 +28,55 @@
     "import": "../views/v-home/v-home.js",
     "component": "v-home",
     "protected": true
+  },
+  "/explore": {
+    "title": "Explore",
+    "import": "../views/v-home/v-home.js",
+    "component": "v-home",
+    "protected": true,
+    "params": {
+      "page": "explore"
+    }
+  },
+  "/profile": {
+    "title": "Your profile",
+    "import": "../views/v-home/v-home.js",
+    "component": "v-home",
+    "protected": true,
+    "params": {
+      "page": "profile"
+    }
+  },
+  "/user": {
+    "title": "User Profile",
+    "import": "../views/v-home/v-home.js",
+    "component": "v-home",
+    "protected": true,
+    "params": {
+      "page": "user"
+    }
+  },
+  "/find-users": {
+    "title": "Find Users",
+    "import": "../views/v-home/v-home.js",
+    "component": "v-home",
+    "protected": true,
+    "params": {
+      "page": "find-users"
+    }
+  },
+  "/settings": {
+    "title": "Settings",
+    "import": "../views/v-home/v-home.js",
+    "component": "v-home",
+    "protected": true,
+    "params": {
+      "page": "settings"
+    }
+  },
+  "/logout": {
+    "import": "../views/v-logout/v-logout.js",
+    "component": "v-logout",
+    "title": "Log Out"
   }
 }
