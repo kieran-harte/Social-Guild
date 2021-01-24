@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 import deleteIcon from '../../icons/delete'
 import placeholderProfilePic from '../../icons/person'
 import store from '../../js/store/store'
@@ -130,6 +131,9 @@ class Component extends LitEl {
                         ? html`<img src="${comment.image}" />`
                         : placeholderProfilePic}
                       ${comment.first_name} ${comment.last_name}
+                    </div>
+                    <div class="time">
+                      ${moment(+comment.created_at).fromNow()}
                     </div>
                     <div class="content">${comment.content}</div>
                   </div>

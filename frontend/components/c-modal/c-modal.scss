@@ -31,7 +31,7 @@ c-modal {
     top: 0;
     left: 0;
     background: black;
-    opacity: 0.4;
+    opacity: 0.5;
   }
 
   & > #content {
@@ -39,7 +39,7 @@ c-modal {
     z-index: 1;
     height: 50%;
     width: 50%;
-    background: var(--background-contrast);
+    background: var(--background-secondary);
     border-radius: var(--border-radius-large);
     box-shadow: var(--card-box-shadow);
     overflow: hidden;
