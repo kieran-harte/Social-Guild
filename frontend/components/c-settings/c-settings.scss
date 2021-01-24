@@ -1,0 +1,42 @@
+c-settings {
+  max-width: 700px;
+  margin: 16px;
+  width: 100%;
+  border-radius: var(--border-radius-large);
+  background: var(--background-secondary);
+  padding: 48px;
+  padding-top: 32px;
+  color: var(--text-primary);
+
+  #btn-edit {
+    margin: 0;
+  }
+
+  #basic-info {
+    margin-top: 32px;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+      align-items: start;
+
+      label {
+        color: var(--text-sub);
+        margin-bottom: 2px;
+      }
+    }
+
+    button {
+      margin: 0;
+    }
+  }
+
+  #change-info {
+    margin-top: 42px;
+
+    li {
+      margin-bottom: 12px;
+    }
+  }
+}

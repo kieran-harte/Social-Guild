@@ -6,7 +6,7 @@
   min-width: 169px;
   min-height: 32px;
   padding: 16px;
-  background: #464646;
+  background: #425f79;
   border-radius: 4px;
   color: white;
   opacity: 0;
@@ -14,6 +14,7 @@
   transition: all 150ms ease-in-out;
   transform: translateX(-50%);
   z-index: 200000;
+  box-shadow: var(--card-box-shadow);
 
   &[visible='true'] {
     opacity: 1;
@@ -23,5 +24,6 @@
 
   &.error {
     background: #c71938;
+    color: white;
   }
 }

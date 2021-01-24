@@ -30,13 +30,6 @@ export default {
     component: "v-home",
     protected: true,
   },
-  "/explore": {
-    title: "Explore",
-    import: import("../views/v-home/v-home.js"),
-    component: "v-home",
-    protected: true,
-    params: { page: "explore" },
-  },
   "/profile": {
     title: "Your profile",
     import: import("../views/v-home/v-home.js"),

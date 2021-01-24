@@ -4,6 +4,6 @@ import './c-notifications.scss'
 @customElement('c-notifications')
 class Component extends LitEl {
   render() {
-    return html``
+    return html`Notifications`
   }
 }

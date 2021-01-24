@@ -16,6 +16,7 @@ require('../../components/c-notifications/c-notifications')
 require('../../components/c-requests/c-requests')
 require('../../components/c-feed/c-feed')
 require('../../components/c-profile/c-profile')
+require('../../components/c-settings/c-settings')
 
 @customElement('v-home')
 class View extends LitEl {
@@ -66,12 +67,6 @@ class View extends LitEl {
                   Home
                 </li>
                 <li
-                  ?active=${this.tab === 'explore'}
-                  onclick="navigate('/explore')"
-                >
-                  Explore
-                </li>
-                <li
                   ?active=${this.tab === 'profile'}
                   onclick="navigate('/profile')"
                 >
@@ -119,10 +114,6 @@ class View extends LitEl {
         code = html`<c-feed></c-feed>`
         break
 
-      case 'explore':
-        code = html`explore: <c-explore></c-explore>`
-        break
-
       case 'profile':
       case 'user':
         code = html`<c-profile></c-profile>`
@@ -133,7 +124,7 @@ class View extends LitEl {
         break
 
       case 'settings':
-        code = html`settings: <c-settings></c-settings>`
+        code = html`<c-settings></c-settings>`
         break
 
       default:
