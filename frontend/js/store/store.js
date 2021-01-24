@@ -4,18 +4,17 @@ import { makeAutoObservable } from 'mobx'
 class Store {
   constructor() {
     makeAutoObservable(this)
-    this.init()
   }
 
   user = {}
 
   feed = []
 
+  notifications = []
+
   addingPost = false
 
   feedLoading = false
-
-  async init() {}
 
   fetchUserDetails() {
     axios

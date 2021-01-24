@@ -99,7 +99,6 @@ class View extends LitEl {
       <aside>
         <div id="aside-content">
           <c-notifications></c-notifications>
-          <c-requests></c-requests>
           <c-footer></c-footer>
         </div>
       </aside>

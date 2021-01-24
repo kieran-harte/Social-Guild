@@ -3,4 +3,14 @@ c-requests {
   background: var(--background-secondary);
   border-bottom-left-radius: var(--border-radius-large);
   padding: 8px;
+
+  h2 {
+    padding: 8px;
+    margin-bottom: 16px;
+  }
+
+  #no-follow-reqs {
+    color: var(--text-sub);
+    text-align: center;
+  }
 }

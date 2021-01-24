@@ -20,13 +20,18 @@ class Component extends LitEl {
   }
 
   render() {
-    return html`${this.requests.map(
-      (user) =>
-        html`
-          <div class="request">
-            <c-user request .user=${user}></c-user>
-          </div>
-        `
-    )}`
+    return html` <h2>Follow Requests</h2>
+
+      ${!this.requests.length
+        ? html` <div id="no-follow-reqs">No requests</div> `
+        : ''}
+      ${this.requests.map(
+        (user) =>
+          html`
+            <div class="request">
+              <c-user request .user=${user}></c-user>
+            </div>
+          `
+      )}`
   }
 }
