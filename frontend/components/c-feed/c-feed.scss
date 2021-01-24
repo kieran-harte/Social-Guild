@@ -16,7 +16,8 @@ c-feed {
     height: 28px;
     overflow: hidden;
     margin-left: -74px;
-    margin-bottom: 16px;
+    margin-bottom: 28px;
+    z-index: 2;
 
     &[square] {
       min-width: 28px;

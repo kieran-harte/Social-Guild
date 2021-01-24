@@ -62,7 +62,7 @@ module.exports = {
       'SELECT * FROM following WHERE user_id=$1 AND target=$2',
       [req.user.id, post.user_id]
     )
-    if (!followingAuthor)
+    if (!followingAuthor && req.user.id !== post.user_id)
       return next(
         new ErrorResponse('You are not authorized to access this post.', 403)
       )

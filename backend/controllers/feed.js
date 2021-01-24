@@ -8,18 +8,55 @@ const ErrorResponse = require('../utils/ErrorResponse')
  * @access	Public
  */
 exports.getFeed = asyncHandler(async (req, res, next) => {
+  // Get all posts from users you follow and your own, ordered by date and limited to 25
   const posts = await pool.queryMany(
     `
-		SELECT 
-			users.first_name,
-			users.last_name,
-			users.image,
-			posts.*
-		FROM following
-		JOIN posts ON following.target=posts.user_id
-		JOIN users ON following.target=users.id
-		WHERE following.user_id=$1
-		ORDER BY created_at DESC
+		select
+			posts.*,
+			u.first_name,
+			u.last_name,
+			u.image as profile_pic,
+			coalesce(li.count, 0) as like_count,
+			my_likes.id as my_like_id
+		from
+			posts
+		join ((
+			select
+				users.*
+			from
+				following
+			join users on
+				following.target = users.id
+			where
+				following.user_id = $1)
+		union (
+		select
+			users.*
+		from
+			users
+		where
+			users.id = $1)) as u on
+			posts.user_id = u.id
+		left join (
+			select
+				post_id,
+				cast(count(id) as integer)
+			from
+				likes
+			group by
+				post_id) as li on
+			posts.id = li.post_id
+		left join (
+			select
+				*
+			from
+				likes
+			where
+				likes.user_id = $1) as my_likes on
+			posts.id = my_likes.post_id
+		order by
+			created_at desc
+		limit 25
 	`,
     [req.user.id]
   )

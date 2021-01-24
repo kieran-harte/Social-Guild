@@ -27,6 +27,12 @@ class Component extends LitEl {
       })
       .then((res) => {
         const newPost = res.data.data
+        newPost.first_name = store.user.first_name
+        newPost.last_name = store.user.last_name
+        newPost.likes = 0
+        newPost.comments = 0
+        newPost.user_id = store.user.id
+
         // Update list of posts in feed
         store.setFeed([newPost, ...store.feed])
 

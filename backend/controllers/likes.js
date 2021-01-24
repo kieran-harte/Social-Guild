@@ -34,14 +34,14 @@ exports.getLikes = asyncHandler(async (req, res, next) => {
  */
 exports.likePost = asyncHandler(async (req, res, next) => {
   // Like the post
-  await pool.queryOne(
-    `INSERT INTO likes (user_id, post_id, created_at) VALUES ($1, $2, $3)`,
+  const like = await pool.queryOne(
+    `INSERT INTO likes (user_id, post_id, created_at) VALUES ($1, $2, $3) RETURNING *`,
     [req.user.id, req.params.postId, Date.now()]
   )
 
   res.status(200).json({
     success: true,
-    data: {}
+    data: like
   })
 })
 

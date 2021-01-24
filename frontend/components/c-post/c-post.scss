@@ -1,3 +1,86 @@
 c-post {
-    
+  width: 100%;
+  background: var(--background-contrast);
+  color: var(--text-primary);
+  border-radius: 8px;
+  margin-bottom: 42px;
+  position: relative;
+  padding: 8px;
+  padding-top: 16px;
+  fill: var(--profile-placeholder-fill);
+
+  #user-info {
+    border: 1px solid var(--background-contrast);
+    border-radius: var(--border-radius);
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    background: var(--background-secondary);
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--card-box-shadow-small);
+
+    img,
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      margin-left: 4px;
+    }
+
+    .name {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    #date {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+  }
+
+  #content {
+    color: var(--text-dark);
+    margin-top: 24px;
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  #interaction-info {
+    color: var(--text-primary);
+    background: var(--background-secondary);
+    box-shadow: var(--card-box-shadow-small);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--background-contrast);
+    position: absolute;
+    right: -12px;
+    bottom: -12px;
+    display: flex;
+    padding: 4px 12px;
+    align-items: center;
+
+    #likes,
+    #comments {
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    #likes {
+      margin-right: 8px;
+
+      &[liked] {
+        background: red;
+      }
+    }
+  }
 }
