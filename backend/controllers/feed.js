@@ -16,6 +16,7 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 			u.first_name,
 			u.last_name,
 			u.image as profile_pic,
+			coalesce(com.count, 0) as comment_count,
 			coalesce(li.count, 0) as like_count,
 			my_likes.id as my_like_id
 		from
@@ -54,6 +55,15 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 			where
 				likes.user_id = $1) as my_likes on
 			posts.id = my_likes.post_id
+		left join (
+			select
+				post_id,
+				cast(count(id) as integer)
+			from
+				comments
+			group by
+				post_id ) as com on
+			posts.id = com.post_id
 		order by
 			created_at desc
 		limit 25

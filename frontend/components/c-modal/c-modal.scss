@@ -1,0 +1,47 @@
+c-modal {
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transition: var(--transition);
+  transition-duration: 250ms;
+
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+
+  &[display] {
+    display: flex;
+  }
+
+  &[open] {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  & > #closer {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: black;
+    opacity: 0.4;
+  }
+
+  & > #content {
+    display: flex;
+    z-index: 1;
+    height: 50%;
+    width: 50%;
+    background: var(--background-contrast);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--card-box-shadow);
+    overflow: hidden;
+  }
+}

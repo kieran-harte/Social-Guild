@@ -1,7 +1,17 @@
 import axios from 'axios'
+import commentIcon from '../../icons/comment'
+import deleteIcon from '../../icons/delete'
+import editIcon from '../../icons/edit'
+import favIcon from '../../icons/fav'
+import favOutline from '../../icons/fav-outline'
 import profilePicPlaceholder from '../../icons/person'
-import { customElement, html, LitEl, property } from '../_LitEl/LitEl'
+import store from '../../js/store/store'
+import { customElement, html, LitEl, property, query } from '../_LitEl/LitEl'
 import './c-post.scss'
+
+require('../c-modal/c-modal')
+require('../c-comments/c-comments')
+require('../c-edit-post/c-edit-post')
 
 const moment = require('moment')
 
@@ -12,6 +22,10 @@ class Component extends LitEl {
   @property({ type: Object }) post = {}
 
   @property({ type: Boolean }) loading = false
+
+  @query('#modal') modal
+
+  @query('c-comments') commentsList
 
   like() {
     if (this.loading) return
@@ -51,6 +65,41 @@ class Component extends LitEl {
       })
   }
 
+  deletePost() {
+    if (this.loading) return
+
+    this.loading = true
+
+    axios
+      .delete(`/api/v1/posts/${this.post.id}`)
+      .then((res) => {
+        store.setFeed(store.feed.filter((p) => p.id !== this.post.id))
+
+        notif('Post deleted')
+      })
+      .catch((err) => {
+        notif(err.response.data.error, 'error')
+      })
+      .then(() => {
+        this.loading = false
+      })
+  }
+
+  editPost() {
+    this.modal.slot = html`
+      <c-edit-post
+        @edit-modal-close=${this.modal.toggle}
+        .post=${this.post}
+      ></c-edit-post>
+    `
+    this.modal.toggle()
+  }
+
+  showComments() {
+    this.modal.toggle()
+    this.modal.slot = html` <c-comments .postId=${this.post.id}></c-comments> `
+  }
+
   render() {
     return html`
       <div id="user-info">
@@ -73,15 +122,27 @@ class Component extends LitEl {
       <div id="content">${this.post.content}</div>
 
       <div id="interaction-info">
+        <!-- Edit and delete buttons if our post -->
+        ${this.post.user_id === store.user.id
+          ? html`
+              <div id="delete" @click=${this.deletePost}>${deleteIcon}</div>
+              <div id="edit" @click=${this.editPost}>${editIcon}</div>
+            `
+          : ''}
+
         <div
           id="likes"
           ?liked=${this.post.my_like_id}
           @click=${this.post.my_like_id ? this.unlike : this.like}
         >
-          ${this.post.like_count} likes
+          ${this.post.like_count} ${this.post.my_like_id ? favIcon : favOutline}
         </div>
-        <div>${this.post.comment_count || 0} Comments</div>
+        <div id="comments" @click=${this.showComments}>
+          ${this.post.comment_count} ${commentIcon}
+        </div>
       </div>
+
+      <c-modal id="modal"> </c-modal>
     `
   }
 }

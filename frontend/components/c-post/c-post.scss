@@ -1,25 +1,21 @@
 c-post {
   width: 100%;
-  background: var(--background-contrast);
+  background: var(--background-contrast-4);
   color: var(--text-primary);
   border-radius: 8px;
   margin-bottom: 42px;
   position: relative;
-  padding: 8px;
-  padding-top: 16px;
+  // padding: 8px;
+  // padding-top: 16px;
   fill: var(--profile-placeholder-fill);
+  // border: 1px solid var(--background-primary);
+  overflow: hidden;
 
   #user-info {
-    border: 1px solid var(--background-contrast);
-    border-radius: var(--border-radius);
-    position: absolute;
-    top: -12px;
-    left: -12px;
-    background: var(--background-secondary);
-    padding: 4px 12px;
+    background: var(--background-contrast-4);
+    padding: 12px 14px;
     display: flex;
     align-items: center;
-    box-shadow: var(--card-box-shadow-small);
 
     img,
     svg {
@@ -30,11 +26,13 @@ c-post {
     .right {
       display: flex;
       flex-direction: column;
-      margin-left: 4px;
+      margin-left: 12px;
     }
 
     .name {
       cursor: pointer;
+      color: var(--text-sub-2);
+
       &:hover {
         text-decoration: underline;
       }
@@ -46,40 +44,65 @@ c-post {
     }
   }
 
-  #content {
-    color: var(--text-dark);
-    margin-top: 24px;
+  & > #content {
+    color: var(--text-primary);
+    margin-top: 16px;
     margin-bottom: 8px;
-    padding: 8px;
+    padding: 16px;
+    padding-left: 32px;
   }
 
   #interaction-info {
+    padding: 8px;
     color: var(--text-primary);
-    background: var(--background-secondary);
-    box-shadow: var(--card-box-shadow-small);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--background-contrast);
-    position: absolute;
-    right: -12px;
-    bottom: -12px;
+    // background: var(--background-primary);
+    // box-shadow: var(--card-box-shadow-small);
+    // border-radius: var(--border-radius-large);
+    // border: 1px solid var(--background-contrast);
+    // position: absolute;
+    // right: -8px;
+    // bottom: -8px;
     display: flex;
-    padding: 4px 12px;
+    // padding: 4px 12px;
     align-items: center;
+    overflow: hidden;
+    justify-content: flex-end;
 
+    svg {
+      height: 20px;
+      width: 20px;
+      margin-left: 6px;
+    }
+
+    #edit,
+    #delete {
+      svg {
+        margin-left: 0;
+      }
+    }
+
+    #edit,
+    #delete,
     #likes,
     #comments {
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      border-radius: var(--border-radius-large);
+      justify-content: center;
+      padding: 4px 12px;
 
       &:hover {
-        text-decoration: underline;
+        background: var(--background-secondary);
+        // text-decoration: underline;
       }
     }
 
     #likes {
-      margin-right: 8px;
-
       &[liked] {
-        background: red;
+        svg {
+          fill: var(--btn-negative);
+        }
       }
     }
   }

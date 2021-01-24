@@ -29,21 +29,23 @@ class Component extends LitEl {
         const newPost = res.data.data
         newPost.first_name = store.user.first_name
         newPost.last_name = store.user.last_name
-        newPost.likes = 0
-        newPost.comments = 0
+        newPost.image = store.user.image
+        newPost.like_count = 0
+        newPost.comment_count = 0
+        newPost.my_like_id = null
         newPost.user_id = store.user.id
 
         // Update list of posts in feed
         store.setFeed([newPost, ...store.feed])
 
         notif('Posted')
+        store.addingPost = false
       })
       .catch((err) => {
         notif(err.response.data.error, 'error')
       })
       .then(() => {
         this.loading = false
-        store.addingPost = false
       })
   }
 
