@@ -1,4 +1,5 @@
 import axios from 'axios'
+import deleteIcon from '../../icons/delete'
 import placeholderProfilePic from '../../icons/person'
 import store from '../../js/store/store'
 import { customElement, html, LitEl, property, query } from '../_LitEl/LitEl'
@@ -70,6 +71,36 @@ class Component extends LitEl {
             return p
           })
         )
+
+        this.newCommentContent.value = ''
+      })
+      .catch((err) => {
+        notif(err.response.data.error, 'error')
+      })
+      .then(() => {
+        this.loading = false
+      })
+  }
+
+  deleteComment(commentId) {
+    if (this.loading) return
+
+    this.loading = true
+
+    axios
+      .delete(`/api/v1/comments/${commentId}`)
+      .then((res) => {
+        // store.setFeed(store.feed.filter((p) => p.id !== this.post.id))
+        this.comments = this.comments.filter((c) => c.id !== commentId)
+        // Update number of comments on post
+        store.setFeed(
+          store.feed.map((p) => {
+            if (p.id === this.postId) {
+              p.comment_count -= 1
+            }
+            return p
+          })
+        )
       })
       .catch((err) => {
         notif(err.response.data.error, 'error')
@@ -90,13 +121,31 @@ class Component extends LitEl {
           ? this.comments.map(
               (comment) => html`
                 <div id="comment">
-                  <div class="name">
-                    ${comment.image
-                      ? html`<img src="${comment.image}" />`
-                      : placeholderProfilePic}
-                    ${comment.first_name} ${comment.last_name}
+                  <div class="left">
+                    <div
+                      class="name"
+                      @click=${() => navigate(`/user?u=${comment.user_id}`)}
+                    >
+                      ${comment.image
+                        ? html`<img src="${comment.image}" />`
+                        : placeholderProfilePic}
+                      ${comment.first_name} ${comment.last_name}
+                    </div>
+                    <div class="content">${comment.content}</div>
                   </div>
-                  <div class="content">${comment.content}</div>
+                  <div class="right">
+                    <!-- Edit and delete buttons if our comment -->
+                    ${comment.user_id === store.user.id
+                      ? html`
+                          <div
+                            id="delete"
+                            @click=${() => this.deleteComment(comment.id)}
+                          >
+                            ${deleteIcon}
+                          </div>
+                        `
+                      : ''}
+                  </div>
                 </div>
               `
             )

@@ -43,16 +43,29 @@ class Store {
     return this.user.followers.length
   }
 
-  fetchFeed() {
+  fetchFeed(userId) {
     this.feedLoading = true
 
+    let url
+    // get my feed
+    url = '/api/v1/feed'
+
+    if (userId !== undefined) {
+      // get a user's posts
+      url = `/api/v1/users/${userId}/posts`
+    }
+    if (userId === -1) {
+      // Get my posts
+      url = `/api/v1/users/posts`
+    }
+
     axios
-      .get('/api/v1/feed')
+      .get(url)
       .then((res) => {
         this.setFeed(res.data.data)
       })
       .catch((err) => {
-        notif(err.response.data.error, 'error')
+        if (err.response.status !== 403) notif(err.response.data.error, 'error')
       })
       .then(() => {
         this.feedLoading = false

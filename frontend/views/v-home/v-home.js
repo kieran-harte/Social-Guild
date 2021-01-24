@@ -15,6 +15,7 @@ require('../../components/c-find-users/c-find-users')
 require('../../components/c-notifications/c-notifications')
 require('../../components/c-requests/c-requests')
 require('../../components/c-feed/c-feed')
+require('../../components/c-profile/c-profile')
 
 @customElement('v-home')
 class View extends LitEl {
@@ -123,7 +124,8 @@ class View extends LitEl {
         break
 
       case 'profile':
-        code = html`profile: <c-profile></c-profile>`
+      case 'user':
+        code = html`<c-profile></c-profile>`
         break
 
       case 'find-users':

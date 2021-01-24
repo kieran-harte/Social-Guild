@@ -17,28 +17,45 @@ c-comments {
     #comment {
       margin-bottom: 16px;
       border-bottom: 1px solid var(--divider-color-light);
+      display: flex;
 
-      .name {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        color: var(--text-action);
+      .left {
+        flex-grow: 1;
 
-        svg,
-        img {
-          margin-right: 8px;
-          height: 24px;
-          width: 24px;
+        .name {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          color: var(--text-action);
+
+          svg,
+          img {
+            margin-right: 8px;
+            height: 24px;
+            width: 24px;
+          }
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
-
-        &:hover {
-          text-decoration: underline;
+        .content {
+          padding: 8px 0;
+          margin-left: 32px;
         }
       }
 
-      .content {
-        padding: 8px 0;
-        margin-left: 32px;
+      .right {
+        #delete {
+          cursor: pointer;
+          padding: 2px;
+          border-radius: var(--border-radius-large);
+          transition: var(--transition);
+
+          &:hover {
+            fill: var(--btn-negative-hover);
+          }
+        }
       }
     }
   }

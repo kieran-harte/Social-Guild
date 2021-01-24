@@ -60,6 +60,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
  * @access	Private
  */
 exports.getPosts = asyncHandler(async (req, res, next) => {
+  if (req.params.id === undefined) req.params.id = req.user.id
+
   if (req.user.id !== parseInt(req.params.id, 10)) {
     // Cannot view followers of someone you don't follow
     const isFollowing = await pool.queryOne(
@@ -76,9 +78,57 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
       )
   }
 
-  const posts = await pool.queryMany('SELECT * FROM posts WHERE user_id=$1', [
-    req.params.id
-  ])
+  const posts = await pool.queryMany(
+    `select
+			posts.*,
+			u.first_name,
+			u.last_name,
+			u.image as profile_pic,
+			coalesce(com.count, 0) as comment_count,
+			coalesce(li.count, 0) as like_count,
+			my_likes.id as my_like_id
+		from
+			posts
+		join (
+			select
+				users.*
+			from
+				users
+			where
+				users.id = $1) as u on
+			posts.user_id = u.id
+		left join (
+			select
+				post_id,
+				cast(count(id) as integer)
+			from
+				likes
+			group by
+				post_id) as li on
+			posts.id = li.post_id
+		left join (
+			select
+				*
+			from
+				likes
+			where
+				likes.user_id = $2) as my_likes on
+			posts.id = my_likes.post_id
+		left join (
+			select
+				post_id,
+				cast(count(id) as integer)
+			from
+				comments
+			group by
+				post_id ) as com on
+			posts.id = com.post_id
+		order by
+			created_at desc
+		limit 25
+	`,
+    [req.params.id, req.user.id]
+  )
 
   // TODO return if the user likes it
 
@@ -94,6 +144,8 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
  * @access	Private
  */
 exports.getProfile = asyncHandler(async (req, res, next) => {
+  if (req.params.id === undefined) req.params.id = req.user.id
+
   const profile = await pool.queryOne(
     'SELECT id, first_name, last_name, image FROM users WHERE id=$1',
     [req.params.id]
@@ -137,8 +189,8 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
     [req.params.id, req.user.id]
   )
 
-  profile.isFollowing = !!isFollowing
-  profile.requestedToFollow = !!requestedToFollow
+  profile.following_id = (isFollowing || {}).id
+  profile.follow_request_id = (requestedToFollow || {}).id
   profile.followRequestReceived = !!followRequestReceived
 
   res.status(200).json({

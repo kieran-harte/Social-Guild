@@ -43,7 +43,8 @@ exports.getComments = asyncHandler(async (req, res, next) => {
 			users.image
 		FROM comments
 		JOIN users ON comments.user_id = users.id
-		WHERE post_id=$1`,
+		WHERE post_id=$1 
+		ORDER BY created_at DESC`,
     [req.params.postId]
   )
 

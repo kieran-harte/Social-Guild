@@ -13,7 +13,9 @@ const router = express.Router()
 
 router
   .get('/', protect, getUsers)
+  .get('/posts', protect, getPosts)
   .get('/:id/posts', protect, getPosts)
+  .get('/profile', protect, getProfile)
   .get('/:id/profile', protect, getProfile)
   .get('/:id/followers', protect, getFollowers)
   .get('/:id/following', protect, getFollowing)

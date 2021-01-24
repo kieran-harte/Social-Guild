@@ -1,5 +1,6 @@
 import axios from 'axios'
 import placeholderProfilePic from '../../icons/person'
+import store from '../../js/store/store'
 import { customElement, html, LitEl, property } from '../_LitEl/LitEl'
 import './c-user.scss'
 
@@ -128,6 +129,9 @@ class Component extends LitEl {
   }
 
   renderButtons() {
+    // Can't follow yourself
+    if (this.user.id === store.user.id) return ''
+
     if (this.accepted) {
       return html`<p class="follows-you">follows you.</p>`
     }
@@ -157,7 +161,7 @@ class Component extends LitEl {
     ) {
       return html`
         <button
-          class="btn-primary"
+          class="btn-negative"
           @click=${this.unfollow}
           ?disabled=${this.loading}
         >
