@@ -45,15 +45,11 @@ exports.uploadMedia = asyncHandler(async (req, res, next) => {
 exports.createPost = asyncHandler(async (req, res, next) => {
   const { type, content } = req.body
 
-  // TODO if type=image/video, upload
-
   // Check required fields are present
   if (!requiredFields([type]))
     return next(new ErrorResponse('Please add a post type', 400))
   if (type === 'text' && !requiredFields([content]))
     return next(new ErrorResponse('Please add some content', 400))
-
-  console.log('posting with media url:', req.body.media)
 
   const newPost = await pool.queryOne(
     'INSERT INTO posts (type, content, media, "created_at", user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',

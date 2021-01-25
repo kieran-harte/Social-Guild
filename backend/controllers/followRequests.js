@@ -39,8 +39,6 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
     [req.user.id, target, Date.now()]
   )
 
-  // TODO check if they've alredy received a request from them (opposite of existingRequest)
-  // TODO check that they don't already follow them
   // TODO possibly add notification, or just show any pending requests as non-dismissable notifications
   res.status(200).json({
     success: true,

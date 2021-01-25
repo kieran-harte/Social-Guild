@@ -128,6 +128,7 @@ class Component extends LitEl {
             class="btn-primary"
             name="inputFile"
             id="inputFile"
+            accept="image/*"
           />
           <input style="display:none" type="text" name="type" value="image" />
           <input
@@ -145,7 +146,6 @@ class Component extends LitEl {
         rows="2"
         placeholder="Caption..."
         @change=${(e) => {
-          console.log(e)
           this.querySelector('#media-caption-form').value = this.querySelector(
             '#media-caption'
           ).value
@@ -168,6 +168,7 @@ class Component extends LitEl {
             class="btn-primary"
             name="inputFile"
             id="inputFile"
+            accept="video/*"
           />
           <input style="display:none" type="text" name="type" value="video" />
           <input
@@ -185,7 +186,6 @@ class Component extends LitEl {
         rows="2"
         placeholder="Caption..."
         @change=${(e) => {
-          console.log(e)
           this.querySelector('#media-caption-form').value = this.querySelector(
             '#media-caption'
           ).value

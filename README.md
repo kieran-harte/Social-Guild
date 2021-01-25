@@ -1,3 +1,15 @@
+Live demo: https://socialguild.org
+
+# Build & Run
+
+- Install dependencies: `npm install`
+- Build the project: `npm run build`
+- Start the server: `npm run server`
+
+- To build and server while watching for changes: `npm run dev`
+
+# Plan
+
 ## User Features
 
 - Register

@@ -24,6 +24,7 @@ class Component extends LitEl {
             class="btn-primary"
             name="inputFile"
             id="inputFile"
+						accept="image/*"
 					/>
 					<input type="submit" class="btn-primary" value="Upload">
         </form>
