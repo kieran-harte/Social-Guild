@@ -84,7 +84,7 @@ exports.getPost = asyncHandler(async (req, res, next) => {
 			users.last_name 
 		FROM posts 
 		JOIN users ON users.id = posts.user_id 
-		WHERE id=$1`,
+		WHERE posts.id=$1`,
     [req.params.id]
   )
 
