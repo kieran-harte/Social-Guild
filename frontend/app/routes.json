@@ -34,36 +34,28 @@
     "import": "../views/v-home/v-home.js",
     "component": "v-home",
     "protected": true,
-    "params": {
-      "page": "profile"
-    }
+    "params": { "page": "profile" }
   },
   "/user": {
     "title": "User Profile",
     "import": "../views/v-home/v-home.js",
     "component": "v-home",
     "protected": true,
-    "params": {
-      "page": "user"
-    }
+    "params": { "page": "user" }
   },
   "/find-users": {
     "title": "Find Users",
     "import": "../views/v-home/v-home.js",
     "component": "v-home",
     "protected": true,
-    "params": {
-      "page": "find-users"
-    }
+    "params": { "page": "find-users" }
   },
   "/settings": {
     "title": "Settings",
     "import": "../views/v-home/v-home.js",
     "component": "v-home",
     "protected": true,
-    "params": {
-      "page": "settings"
-    }
+    "params": { "page": "settings" }
   },
   "/logout": {
     "import": "../views/v-logout/v-logout.js",

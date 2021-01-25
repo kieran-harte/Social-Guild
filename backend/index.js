@@ -6,7 +6,6 @@ const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 require('colors')
-const helmet = require('helmet')
 const xss = require('xss-clean')
 const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
@@ -25,7 +24,6 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(morgan(process.env.NODE_ENV === 'dev' ? 'dev' : 'common'))
-app.use(helmet())
 app.use(xss())
 app.use(hpp())
 
@@ -63,6 +61,10 @@ app.get(PAGE_URLS, returnPage)
 
 // Set static folder
 app.use(express.static(path.join(__dirname, '..', 'dist')))
+
+app.get('/api', (req, res) => {
+  res.sendFile(path.join(__dirname, 'api.html'))
+})
 
 // Error handler
 app.use(errorHandler)
