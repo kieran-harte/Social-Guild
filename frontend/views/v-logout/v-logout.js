@@ -15,6 +15,7 @@ class View extends LitEl {
 
     store.user = {}
     localStorage.clear('logged_in')
+    localStorage.clear('login_time')
 
     axios
       .get('/api/v1/auth/logout')

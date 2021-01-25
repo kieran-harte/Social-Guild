@@ -119,7 +119,7 @@ class Component extends LitEl {
         </div>
       </div>
 
-      <div id="content">${this.post.content}</div>
+      ${this.renderContent()}
 
       <div id="interaction-info">
         <!-- Edit and delete buttons if our post -->
@@ -143,6 +143,28 @@ class Component extends LitEl {
       </div>
 
       <c-modal id="modal"> </c-modal>
+    `
+  }
+
+  renderContent() {
+    if (this.post.type === 'text') {
+      return html` <div id="content">${this.post.content}</div> `
+    }
+
+    if (this.post.type === 'image') {
+      return html`
+        <img src="${this.post.media}" alt="" />
+        ${this.post.content
+          ? html` <div id="content">${this.post.content}</div> `
+          : ''}
+      `
+    }
+
+    return html`
+      <video controls src="${this.post.media}" alt=""></video>
+      ${this.post.content
+        ? html` <div id="content">${this.post.content}</div> `
+        : ''}
     `
   }
 }

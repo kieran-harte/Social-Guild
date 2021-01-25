@@ -1,8 +1,10 @@
+import moment from 'moment'
 import {
   customElement,
   html,
   LitEl,
-  property
+  property,
+  query
 } from '../../components/_LitEl/LitEl'
 import profilePicPlaceholder from '../../icons/person'
 import wellbeingSvg from '../../images/svg/undraw_walking_outside'
@@ -17,15 +19,28 @@ require('../../components/c-requests/c-requests')
 require('../../components/c-feed/c-feed')
 require('../../components/c-profile/c-profile')
 require('../../components/c-settings/c-settings')
+require('../../components/c-follow-list/c-follow-list')
 
 @customElement('v-home')
 class View extends LitEl {
   @property({ type: String }) tab = window.params.page || 'home'
 
+  @query('#modal') modal
+
   constructor() {
     super()
 
     store.fetchUserDetails()
+  }
+
+  showFollow() {
+    this.modal.slot = html`
+      <c-follow-list
+        .userId=${store.user.id}
+        @edit-modal-close=${this.modal.toggle}
+      ></c-follow-list>
+    `
+    this.modal.toggle()
   }
 
   render() {
@@ -37,7 +52,11 @@ class View extends LitEl {
             <div id="my-info">
               ${store.user?.image
                 ? html`
-                    <img id="my-profile-picture" src="" alt="Profile Picture" />
+                    <img
+                      id="my-profile-picture"
+                      src="${store.user.image}"
+                      alt="Profile Picture"
+                    />
                   `
                 : profilePicPlaceholder}
 
@@ -52,10 +71,11 @@ class View extends LitEl {
                 Log Out
               </button>
               <div id="follow-info">
-                <h3 id="my-followers-count">
+                <c-modal id="modal"></c-modal>
+                <h3 id="my-followers-count" @click=${this.showFollow}>
                   ${store.user.followers || '-'} Followers
                 </h3>
-                <h3 id="my-following-count">
+                <h3 id="my-following-count" @click=${this.showFollow}>
                   ${store.user.following || '-'} Following
                 </h3>
               </div>
@@ -89,7 +109,7 @@ class View extends LitEl {
 
             <div id="duration-info">
               <h2>You've been online for</h2>
-              <p>23 minutes</p>
+              <p>${moment(+localStorage.login_time).fromNow(true)}</p>
               ${wellbeingSvg}
             </div>
           </div>

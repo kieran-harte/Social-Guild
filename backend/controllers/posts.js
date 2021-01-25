@@ -1,7 +1,41 @@
+const sharp = require('sharp')
 const pool = require('../config/db')
 const asyncHandler = require('../middleware/async')
 const ErrorResponse = require('../utils/ErrorResponse')
 const requiredFields = require('../utils/requiredFields')
+const { uploadFiles } = require('../utils/storage')
+
+// Shrink image to 512x512
+exports.shrinkImage = asyncHandler(async (req, res, next) => {
+  if (req.body.type !== 'image') return next()
+  try {
+    // Shrink image
+    const buffer = await sharp(req.files[0].buffer).resize(1024).toBuffer()
+    req.files[0].buffer = buffer
+    next()
+  } catch (err) {
+    return next(new ErrorResponse(err.message, 500))
+  }
+})
+
+/**
+ * @desc		Upload Media
+ * @route		POST /api/v1/posts/media
+ * @access	Private
+ */
+exports.uploadMedia = asyncHandler(async (req, res, next) => {
+  try {
+    const results = await uploadFiles([req.files[0]], req.user.id)
+
+    const url = results[0].Location
+
+    // Add url to request body to pass on to createPost
+    req.body.media = url
+    next()
+  } catch (err) {
+    return next(new ErrorResponse(err.message, 500))
+  }
+})
 
 /**
  * @desc		Create a new post
@@ -14,8 +48,12 @@ exports.createPost = asyncHandler(async (req, res, next) => {
   // TODO if type=image/video, upload
 
   // Check required fields are present
-  if (!requiredFields([type, content]))
-    return next(new ErrorResponse('Please fill in all required fields.', 400))
+  if (!requiredFields([type]))
+    return next(new ErrorResponse('Please add a post type', 400))
+  if (type === 'text' && !requiredFields([content]))
+    return next(new ErrorResponse('Please add some content', 400))
+
+  console.log('posting with media url:', req.body.media)
 
   const newPost = await pool.queryOne(
     'INSERT INTO posts (type, content, media, "created_at", user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
@@ -79,11 +117,13 @@ exports.getPost = asyncHandler(async (req, res, next) => {
  * @access	Private
  */
 exports.editPost = asyncHandler(async (req, res, next) => {
-  const { type, content, media } = req.body
+  const { type, content } = req.body
 
   // check required fields present
-  if (!requiredFields([type, content]))
-    return next(new ErrorResponse('Please fill in all required fields.', 400))
+  if (!requiredFields([type]))
+    return next(new ErrorResponse('Please specify the post type.', 400))
+  if (type === 'text' && !requiredFields([content]))
+    return next(new ErrorResponse('Please add some content.', 400))
 
   const post = await pool.queryOne('SELECT * FROM posts WHERE id=$1', [
     req.params.id
@@ -103,8 +143,8 @@ exports.editPost = asyncHandler(async (req, res, next) => {
     )
 
   const updatedPost = await pool.queryOne(
-    'UPDATE posts SET type=$1, content=$2, media=$3 WHERE id=$4 RETURNING *',
-    [type, content, media || null, req.params.id]
+    'UPDATE posts SET type=$1, content=$2 WHERE id=$3 RETURNING *',
+    [type, content, req.params.id]
   )
 
   res.status(200).json({

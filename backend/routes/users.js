@@ -1,4 +1,5 @@
 const express = require('express')
+const multer = require('multer')
 const { protect } = require('../middleware/auth')
 const {
   getPosts,
@@ -6,9 +7,12 @@ const {
   getFollowers,
   getFollowing,
   getUsers,
-  unfollowUser
+  unfollowUser,
+  uploadProfilePic,
+  shrinkImage
 } = require('../controllers/users')
 
+const mult = multer()
 const router = express.Router()
 
 router
@@ -20,5 +24,12 @@ router
   .get('/:id/followers', protect, getFollowers)
   .get('/:id/following', protect, getFollowing)
   .delete('/:id/unfollow', protect, unfollowUser)
+  .post(
+    '/uploadprofilepicture',
+    protect,
+    mult.array('inputFile'),
+    shrinkImage,
+    uploadProfilePic
+  )
 
 module.exports = router

@@ -24,6 +24,7 @@ v-home {
       flex-grow: 1;
       flex-direction: column;
       position: fixed;
+      z-index: 1;
 
       #title {
         margin: 16px;
@@ -67,10 +68,8 @@ v-home {
             height: 80px;
             align-self: center;
             justify-self: center;
-
             fill: var(--profile-placeholder-fill);
-            svg {
-            }
+            border-radius: var(--border-radius);
           }
 
           #my-name {
@@ -100,6 +99,16 @@ v-home {
             margin-top: 16px;
             border-top: 2px solid var(--divider-color);
             border-bottom: 2px solid var(--divider-color);
+
+            c-modal #content {
+              max-width: 480px;
+              overflow-y: auto;
+              padding: 16px;
+
+              button {
+                display: none;
+              }
+            }
 
             h3 {
               padding: 12px;
@@ -176,14 +185,7 @@ v-home {
   aside {
     flex-direction: column;
     background: var(--background-primary);
-    // flex-shrink: 0;
-    // flex-grow: 1;
-    // min-width: 400px;
-
-    // flex-direction: column;
-    // background: var(--background-primary);
-    /* flex-shrink: 0; */
-    /* flex-grow: 0; */
+    min-width: 225px;
     max-width: 502px;
 
     #aside-content {

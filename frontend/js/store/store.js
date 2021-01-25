@@ -26,6 +26,7 @@ class Store {
         console.error(err.response.data.error)
         notif('Not logged in', 'error')
         localStorage.clear('logged_in')
+        localStorage.clear('login_time')
         navigate('/login')
       })
   }

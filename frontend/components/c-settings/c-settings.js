@@ -5,6 +5,7 @@ import './c-settings.scss'
 require('../c-modal/c-modal')
 require('../c-edit-info/c-edit-info')
 require('../c-change-password/c-change-password')
+require('../c-change-profile-picture/c-change-profile-picture')
 
 @customElement('c-settings')
 class Component extends LitEl {
@@ -22,6 +23,15 @@ class Component extends LitEl {
       <c-change-password
         @edit-modal-close=${this.modal.toggle}
       ></c-change-password>
+    `
+    this.modal.toggle()
+  }
+
+  uploadProfilePic() {
+    this.modal.slot = html`
+      <c-change-profile-picture
+        @edit-modal-close=${this.modal.toggle}
+      ></c-change-profile-picture>
     `
     this.modal.toggle()
   }
@@ -63,7 +73,11 @@ class Component extends LitEl {
         </li>
         <li>
           <label for="">Profile Picture</label>
-          <button class="btn-primary" id="btn-pp">
+          <button
+            class="btn-primary"
+            id="btn-pp"
+            @click=${this.uploadProfilePic}
+          >
             Change Profile Picture
           </button>
         </li>

@@ -8,6 +8,14 @@ c-profile {
   padding-top: 16px;
   color: var(--text-primary);
 
+  #user-card {
+    img,
+    svg {
+      width: 69px;
+      height: 69px;
+    }
+  }
+
   c-user {
     margin-top: 16px;
 
@@ -24,5 +32,23 @@ c-profile {
   #follow-stats {
     padding: 18px;
     margin-bottom: 16px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    c-modal #content {
+      padding: 16px;
+      overflow-y: auto;
+
+      button {
+        display: none;
+      }
+
+      c-user .name {
+        font-size: 15px;
+      }
+    }
   }
 }

@@ -18,6 +18,7 @@
     "@morbidick/lit-element-notify": "^1.1.1",
     "@types/parcel-env": "^0.0.0",
     "@webcomponents/webcomponentsjs": "^2.5.0",
+    "aws-sdk": "^2.831.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
     "colors": "^1.4.0",
@@ -37,8 +38,11 @@
     "mobx": "^6.0.4",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "pg": "^8.5.1",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "sharp": "^0.27.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

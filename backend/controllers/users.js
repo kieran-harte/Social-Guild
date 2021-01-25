@@ -1,6 +1,43 @@
+const sharp = require('sharp')
 const pool = require('../config/db')
 const asyncHandler = require('../middleware/async')
 const ErrorResponse = require('../utils/ErrorResponse')
+const { uploadFiles } = require('../utils/storage')
+
+// Shrink image to 512x512
+exports.shrinkImage = asyncHandler(async (req, res, next) => {
+  try {
+    // Shrink image
+    const buffer = await sharp(req.files[0].buffer).resize(512).toBuffer()
+    req.files[0].buffer = buffer
+    next()
+  } catch (err) {
+    return next(new ErrorResponse(err.message, 500))
+  }
+})
+
+/**
+ * @desc		Upload profile picture
+ * @route		POST /api/v1/users/uploadprofilepicture
+ * @access	Private
+ */
+exports.uploadProfilePic = asyncHandler(async (req, res, next) => {
+  try {
+    console.log('here')
+    const results = await uploadFiles([req.files[0]], req.user.id)
+
+    const url = results[0].Location
+
+    const user = await pool.queryOne(
+      'UPDATE users SET image=$1 WHERE id = $2 RETURNING *',
+      [url, req.user.id]
+    )
+
+    res.status(201).json({ success: true, user })
+  } catch (err) {
+    return next(new ErrorResponse(err.message, 500))
+  }
+})
 
 /**
  * @desc		Unfollow a user

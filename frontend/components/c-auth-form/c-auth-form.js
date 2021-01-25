@@ -38,6 +38,8 @@ class Component extends LitEl {
           console.log(res.data)
           store.user = res.data.user
           localStorage.logged_in = true
+          localStorage.login_time = Date.now()
+
           window.navigate('/home')
         } else {
           window.notif('Could not sign in.', 'error')
@@ -73,6 +75,7 @@ class Component extends LitEl {
         if (res.data.success) {
           store.user = res.data.user
           localStorage.logged_in = true
+          localStorage.login_time = Date.now()
           window.navigate('/home')
         } else {
           window.notif('Could not create account', 'error')
